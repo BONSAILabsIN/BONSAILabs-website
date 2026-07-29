@@ -9,17 +9,16 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = ({
   variant = 'navbar',
   className = '',
-  subtext = true
 }) => {
   const isHero = variant === 'hero' || variant === 'full';
 
   return (
-    <div className={`inline-flex items-center gap-3.5 select-none ${className}`}>
+    <div className={`inline-flex items-center select-none ${className}`}>
       {/* Official BL Mark with sparkle */}
       <div className="flex items-center justify-center shrink-0">
         <svg
-          width={isHero ? '52' : '42'}
-          height={isHero ? '44' : '34'}
+          width={isHero ? '56' : '46'}
+          height={isHero ? '46' : '36'}
           viewBox="0 0 126 96"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -57,39 +56,7 @@ export const Logo: React.FC<LogoProps> = ({
           />
         </svg>
       </div>
-
-      {/* Main Wordmark: bonsailabs.in */}
-      {variant !== 'markOnly' && (
-        <div className="flex flex-col leading-none justify-center">
-          <div className="flex items-baseline">
-            <span
-              className={`font-black tracking-tight font-sans text-black ${
-                isHero ? 'text-3xl sm:text-4xl' : 'text-xl sm:text-2xl'
-              }`}
-            >
-              bonsailabs
-            </span>
-            <span
-              className={`font-black tracking-tight font-sans text-gray-400 ${
-                isHero ? 'text-3xl sm:text-4xl' : 'text-xl sm:text-2xl'
-              }`}
-            >
-              .in
-            </span>
-          </div>
-
-          {/* Subtitle / Tagline */}
-          {(subtext || isHero) && (
-            <span
-              className={`font-sans font-medium text-black tracking-tight mt-1 ${
-                isHero ? 'text-xs sm:text-sm' : 'text-[11px]'
-              }`}
-            >
-              The zero-fluff B2B technical encyclopedia
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 };
+

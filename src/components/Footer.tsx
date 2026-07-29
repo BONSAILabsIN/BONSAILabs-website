@@ -126,7 +126,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenLegal, onSelectTab }) => {
         {/* Bottom copyright line */}
         <div className="pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] font-mono text-gray-500">
           <div>
-            © {new Date().getFullYear()} <strong>BONSAI Labs (bonsailabs.in)</strong> — The zero-fluff B2B technical encyclopedia. All rights reserved.
+            © {new Date().getFullYear()} <strong>BONSAI Labs</strong> — The zero-fluff B2B technical encyclopedia. All rights reserved.
           </div>
           <div className="flex items-center gap-1">
             <span>Built for execution</span>

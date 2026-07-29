@@ -14,7 +14,7 @@
       "destination": "/admin/index.html"
     },
     {
-      "source": "/((?!admin|assets|favicon|uploads|config\\.yml|.*\\..*).*)",
+      "source": "/((?!admin|api|assets|favicon|uploads|config\\.yml|.*\\..*).*)",
       "destination": "/index.html"
     }
   ]
