@@ -1,0 +1,64 @@
+---
+title: "GitHub Actions CI/CD Pipeline for Cloud Run & Automated Testing"
+slug: "github-actions-cicd-cloudrun"
+category: "DevOps & Docker"
+contentType: "workflow"
+durationSeconds: 165
+youtubeUrl: "https://www.youtube.com/watch?v=R8_veQiYUr0"
+toolStack:
+  - "GitHub Actions"
+  - "GCP Cloud Run"
+  - "Docker"
+publishedDate: "2026-07-20"
+description: "Automate build, test, Docker image push, and revision rollout to Google Cloud Run on every main branch merge."
+---
+
+# GitHub Actions CI/CD Pipeline for Cloud Run
+
+Continuous Deployment should be deterministic and zero-touch. This blueprint establishes a secure Workload Identity Federation pipeline with GitHub Actions and Google Cloud Run.
+
+## GitHub Actions Workflow (.github/workflows/deploy.yml)
+
+```yaml
+name: Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: 'deployer@my-project.iam.gserviceaccount.com'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and Push Docker Image
+        run: |
+          gcloud builds submit --tag gcr.io/${{ secrets.GCP_PROJECT }}/app:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy app-service \
+            --image gcr.io/${{ secrets.GCP_PROJECT }}/app:${{ github.sha }} \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
+```
+
+## Security Best Practices
+- Never commit long-lived GCP service account keys (`.json`) into GitHub Secrets.
+- Use **Workload Identity Federation (OIDC)** to swap GitHub tokens for ephemeral GCP credentials.

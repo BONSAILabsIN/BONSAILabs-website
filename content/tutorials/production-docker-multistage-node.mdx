@@ -1,0 +1,40 @@
+---
+id: "res-docker-multistage"
+title: "Production Docker Multi-Stage Build (45MB Node.js Image)"
+slug: "production-docker-multistage-node"
+description: "Drop 95% of your Docker image bloat. Multi-stage Dockerfile that builds TypeScript, purges devDependencies, and runs under a non-root user."
+contentType: "snippet"
+category: "DevOps & Docker"
+toolStack:
+  - "Docker"
+  - "Node.js"
+  - "TypeScript"
+durationSeconds: 110
+viewsCount: 1850
+downloadCount: 420
+publishedDate: "2026-07-12"
+isPopular: true
+isFeatured: true
+youtubeId: "kJQP7kiw5Fk"
+youtubeUrl: "https://youtube.com/watch?v=docker-node-multistage"
+diagramType: "architecture"
+prerequisites:
+  - "Docker Desktop or CLI"
+  - "Node.js project with package.json"
+takeaways:
+  - "Separate TypeScript compilation into isolated builder stage"
+  - "Purge devDependencies with npm ci --only=production"
+  - "Execute container under non-root appuser"
+codeFilename: "Dockerfile"
+codeLanguage: "dockerfile"
+codeSnippet: "# Stage 1: Build stage\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\n# Stage 2: Production runtime stage\nFROM node:20-alpine AS runner\nWORKDIR /app\nENV NODE_ENV=production\n\n# Security: Create isolated non-root user\nRUN addgroup -S appgroup && adduser -S appuser -G appgroup\n\nCOPY package*.json ./\nRUN npm ci --only=production && npm cache clean --force\n\nCOPY --from=builder /app/dist ./dist\n\nUSER appuser\nEXPOSE 3000\n\nCMD [\"node\", \"dist/server.js\"]"
+---
+
+# Production Docker Multi-Stage Build (45MB Node.js Image)
+
+Standard Node.js Docker containers often swell to 1.2GB due to build tools, TypeScript compilers, and devDependencies.
+
+### Multi-Stage Strategy
+- **Stage 1 (Builder)**: Install full npm modules, compile TypeScript to JavaScript, then discard.
+- **Stage 2 (Runner)**: Copy only `dist/` compiled output and production node_modules into a clean Alpine image.
+- **Security Hardening**: Drop root access by launching Node as non-root `appuser`.

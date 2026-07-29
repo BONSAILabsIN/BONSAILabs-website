@@ -1,0 +1,6 @@
+{
+  "name": "BONSAI Labs",
+  "description": "Zero fluff. Pure execution. Short step-by-step tutorials, workflow templates, and API solutions in under 180 seconds.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

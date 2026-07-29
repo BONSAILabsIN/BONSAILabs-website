@@ -1,0 +1,39 @@
+---
+id: "res-n8n-ai-pipeline"
+title: "Self-Hosted n8n AI Webhook Pipeline with Gemini 2.5"
+slug: "n8n-ai-webhook-gemini-pipeline"
+description: "Complete n8n workflow template to ingest incoming webhooks, structure raw unstructured text via Gemini Flash, and push clean JSON to PostgreSQL."
+contentType: "workflow"
+category: "Automation & n8n"
+toolStack:
+  - "n8n"
+  - "Gemini"
+  - "Webhooks"
+  - "PostgreSQL"
+durationSeconds: 165
+viewsCount: 980
+downloadCount: 310
+publishedDate: "2026-07-18"
+isPopular: true
+isFeatured: true
+youtubeId: "L_LUpnjgPso"
+youtubeUrl: "https://youtube.com/watch?v=n8n-gemini-pipeline"
+diagramType: "pipeline"
+prerequisites:
+  - "Self-hosted or Cloud n8n instance"
+  - "Gemini API Key"
+takeaways:
+  - "Webhook node setup with POST listener and CORS headers"
+  - "Structured JSON extraction prompt for Gemini AI model"
+  - "Postgres insertion query with positional parameters"
+workflowJson: "{\n  \"name\": \"BONSAI Labs - Gemini Webhook Triage\",\n  \"nodes\": [\n    {\n      \"parameters\": {\n        \"httpMethod\": \"POST\",\n        \"path\": \"ai-triage-webhook\",\n        \"options\": {}\n      },\n      \"name\": \"Webhook Receiver\",\n      \"type\": \"n8n-nodes-base.webhook\",\n      \"typeVersion\": 1,\n      \"position\": [250, 300]\n    },\n    {\n      \"parameters\": {\n        \"modelName\": \"gemini-2.5-flash\",\n        \"prompt\": \"Extract company_name, sentiment, urgency_score (1-10) and primary_issue from raw payload: {{$json.body}}\",\n        \"jsonOutput\": true\n      },\n      \"name\": \"Gemini AI Node\",\n      \"type\": \"n8n-nodes-base.googleGemini\",\n      \"typeVersion\": 1,\n      \"position\": [480, 300]\n    },\n    {\n      \"parameters\": {\n        \"operation\": \"executeQuery\",\n        \"query\": \"INSERT INTO customer_signals (company_name, sentiment, urgency, issue) VALUES ($1, $2, $3, $4);\"\n      },\n      \"name\": \"Postgres Insert\",\n      \"type\": \"n8n-nodes-base.postgres\",\n      \"typeVersion\": 1,\n      \"position\": [710, 300]\n    }\n  ],\n  \"connections\": {\n    \"Webhook Receiver\": {\n      \"main\": [[{\"node\": \"Gemini AI Node\", \"type\": \"main\", \"index\": 0}]]\n    },\n    \"Gemini AI Node\": {\n      \"main\": [[{\"node\": \"Postgres Insert\", \"type\": \"main\", \"index\": 0}]]\n    }\n  }\n}"
+---
+
+# Self-Hosted n8n AI Webhook Pipeline with Gemini 2.5
+
+Automating support triage or payload normalization often requires processing messy, unstructured customer inputs.
+
+### Architecture Blueprint
+1. **Webhook Ingress**: Listens for HTTP POST events from forms or third-party webhooks.
+2. **AI Extractor (Gemini Flash)**: Parses payload with a strict JSON schema prompt.
+3. **Database Sink**: Inserts validated fields directly into PostgreSQL.

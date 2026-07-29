@@ -1,0 +1,45 @@
+---
+id: "res-stripe-fastapi"
+title: "Bulletproof Stripe Webhooks Signature Verification in FastAPI"
+slug: "stripe-webhooks-signature-fastapi"
+description: "How to reliably capture raw request bytes in FastAPI to verify Stripe cryptographic signatures without triggering 400 Bad Request signature mismatches."
+contentType: "tutorial"
+category: "API & Webhooks"
+toolStack:
+  - "FastAPI"
+  - "Python"
+  - "Stripe"
+  - "Webhooks"
+durationSeconds: 140
+viewsCount: 1240
+downloadCount: 180
+publishedDate: "2026-07-20"
+isPopular: true
+isFeatured: true
+youtubeId: "dQw4w9WgXcQ"
+youtubeUrl: "https://youtube.com/watch?v=stripe-webhook-fastapi"
+diagramType: "webhook-flow"
+prerequisites:
+  - "Python 3.10+"
+  - "FastAPI"
+  - "Stripe Secret Keys"
+takeaways:
+  - "Extract raw request payload with await request.body() before JSON parsing"
+  - "Handle stripe.SignatureVerificationError cleanly with HTTP 400 response"
+  - "Ensure idempotent endpoint processing using Redis idempotency key"
+codeFilename: "webhook_handler.py"
+codeLanguage: "python"
+codeSnippet: "import os\nfrom fastapi import FastAPI, Request, HTTPException, Header\nimport stripe\n\napp = FastAPI()\n\nstripe.api_key = os.getenv('STRIPE_SECRET_KEY')\nENDPOINT_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')\n\n@app.post('/webhooks/stripe')\nasync def handle_stripe_webhook(\n    request: Request,\n    stripe_signature: str = Header(..., alias='stripe-signature')\n):\n    payload = await request.body()\n    try:\n        event = stripe.Webhook.construct_event(\n            payload, stripe_signature, ENDPOINT_SECRET\n        )\n    except Exception as e:\n        raise HTTPException(status_code=400, detail=str(e))\n\n    event_type = event.get('type')\n    data_object = event['data']['object']\n\n    if event_type == 'checkout.session.completed':\n        customer_email = data_object.get('customer_details', {}).get('email')\n        print(f'Provisioning access for {customer_email}')\n        \n    return {'status': 'ok'}"
+---
+
+# Bulletproof Stripe Webhooks Signature Verification in FastAPI
+
+When handling Stripe webhooks in FastAPI, a frequent trap developers run into is signature verification failure (400 Bad Request / SignatureVerificationError).
+
+### The Root Cause
+FastAPI automatically parses request bodies into Python dicts or Pydantic models. Re-serializing a dict back to string or JSON alters key spacing and byte ordering, rendering the cryptographic HMAC signature invalid.
+
+### The 180-Second Fix
+1. Read the raw byte array directly using `await request.body()` before invoking any JSON parser.
+2. Pass the exact, unmodified bytes to `stripe.Webhook.construct_event(payload, stripe_signature, endpoint_secret)`.
+3. Wrap verification in explicit `try/except` blocks to return clean HTTP status codes.

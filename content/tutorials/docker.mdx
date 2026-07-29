@@ -1,0 +1,51 @@
+---
+title: "Docker Containerization Essentials & Multi-Stage Builds"
+slug: "docker-containerization-essentials"
+category: "DevOps & Docker"
+contentType: "tutorial"
+durationSeconds: 150
+youtubeUrl: "https://www.youtube.com/watch?v=gAkwW2tuIqE"
+toolStack:
+  - "Docker"
+  - "Docker Compose"
+  - "Alpine Linux"
+publishedDate: "2026-07-15"
+description: "Master zero-fluff Docker containerization for modern Web apps using slim multi-stage builds and minimal attack surfaces."
+---
+
+# Docker Containerization Essentials & Multi-Stage Builds
+
+In modern B2B SaaS deployments, container size and cold-start speed directly impact infrastructure costs and scaling latency. Single-stage Dockerfiles ship unnecessary compilers, test suites, and build caches into production.
+
+## Why Multi-Stage Builds Matter
+
+Multi-stage builds allow you to use a heavy SDK image to compile your binary or Vite bundle, then copy **only** the production output into a lightweight runtime image (such as `alpine` or `distroless`).
+
+### Production Multi-Stage Dockerfile
+
+```dockerfile
+# Stage 1: Builder
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: Runner
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm ci --only=production
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+CMD ["node", "dist/server.js"]
+```
+
+## Production Verification Checklist
+
+1. **Rootless Execution**: Always set `USER node` before running `CMD`.
+2. **Layer Caching**: Place `package.json` copy and `npm ci` before `COPY . .` to leverage layer cache on code changes.
+3. **Health Check**: Define a native `HEALTHCHECK CMD curl --fail http://localhost:3000/api/health || exit 1`.

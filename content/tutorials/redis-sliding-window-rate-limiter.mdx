@@ -1,0 +1,35 @@
+---
+id: "res-redis-ratelimit"
+title: "Redis Sliding Window Counter Rate Limiter Middleware"
+slug: "redis-sliding-window-rate-limiter"
+description: "Implement atomic sliding-window log or counter in Redis ZSET to prevent DDoS & endpoint scraping without memory leaks."
+contentType: "tutorial"
+category: "Backend & Databases"
+toolStack:
+  - "Redis"
+  - "Node.js"
+  - "TypeScript"
+durationSeconds: 155
+viewsCount: 820
+downloadCount: 140
+publishedDate: "2026-07-05"
+isPopular: true
+isFeatured: false
+youtubeId: "3JZ_D3ELwOQ"
+youtubeUrl: "https://youtube.com/watch?v=redis-rate-limiter"
+diagramType: "architecture"
+prerequisites:
+  - "Redis server or Redis Cloud connection"
+  - "Express or Fastify server"
+takeaways:
+  - "Atomic Redis ZSET pipeline operations"
+  - "Sliding timestamp window calculation"
+  - "Proper X-RateLimit headers output"
+codeFilename: "rateLimiter.ts"
+codeLanguage: "typescript"
+codeSnippet: "import Redis from 'ioredis';\nimport { Request, Response, NextFunction } from 'express';\n\nconst redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379');\n\nexport function createSlidingWindowLimiter(limit: number, windowSeconds: number) {\n  return async (req: Request, res: Response, next: NextFunction) => {\n    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown';\n    const key = `ratelimit:${ip}`;\n    const now = Date.now();\n    const windowStart = now - windowSeconds * 1000;\n\n    const pipeline = redis.pipeline();\n    pipeline.zremrangebyscore(key, 0, windowStart);\n    pipeline.zadd(key, now, now.toString());\n    pipeline.zcard(key);\n    pipeline.expire(key, windowSeconds);\n\n    const results = await pipeline.exec();\n    const requestCount = results?.[2]?.[1] as number || 0;\n\n    res.setHeader('X-RateLimit-Limit', limit);\n    res.setHeader('X-RateLimit-Remaining', Math.max(0, limit - requestCount));\n\n    if (requestCount > limit) {\n      return res.status(429).json({\n        error: 'Too Many Requests',\n        retryAfterSeconds: windowSeconds\n      });\n    }\n\n    next();\n  };\n}"
+---
+
+# Redis Sliding Window Counter Rate Limiter Middleware
+
+Fixed window rate limiters suffer from burst attacks at window boundaries. A Redis ZSET sliding window keeps track of exact request timestamps per IP.

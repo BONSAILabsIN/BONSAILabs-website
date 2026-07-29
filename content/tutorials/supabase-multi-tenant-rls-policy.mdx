@@ -1,0 +1,34 @@
+---
+id: "res-supabase-rls"
+title: "Supabase Multi-Tenant RLS Policy Blueprint for SaaS"
+slug: "supabase-multi-tenant-rls-policy"
+description: "PostgreSQL Row Level Security policies enforcing workspace tenant separation based on app_metadata organization IDs."
+contentType: "guide"
+category: "Auth & Security"
+toolStack:
+  - "Supabase"
+  - "PostgreSQL"
+  - "OAuth2"
+durationSeconds: 170
+viewsCount: 910
+downloadCount: 210
+publishedDate: "2026-06-28"
+isPopular: false
+isFeatured: false
+youtubeId: "fJ9rUzIMcZQ"
+youtubeUrl: "https://youtube.com/watch?v=supabase-rls-saas"
+diagramType: "rls-tree"
+prerequisites:
+  - "PostgreSQL database or Supabase project"
+  - "JWT app_metadata configuration"
+takeaways:
+  - "Extract workspace claims securely inside SQL functions"
+  - "Apply database-level multi-tenant boundaries using RLS"
+codeFilename: "schema_rls.sql"
+codeLanguage: "sql"
+codeSnippet: "-- Enable RLS on core tables\nALTER TABLE projects ENABLE ROW LEVEL SECURITY;\n\n-- Helper function to extract workspace_id from JWT\nCREATE OR REPLACE FUNCTION current_workspace_id()\nRETURNS uuid AS $$\n  SELECT NULLIF(current_setting('request.jwt.claims', true)::jsonb->'app_metadata'->>'workspace_id', '')::uuid;\n$$ LANGUAGE sql STABLE;\n\n-- Tenant Isolation Policy\nCREATE POLICY \"Workspace isolation for projects\"\nON projects FOR SELECT\nUSING (\n  workspace_id = current_workspace_id()\n);"
+---
+
+# Supabase Multi-Tenant RLS Policy Blueprint for SaaS
+
+PostgreSQL Row Level Security policies enforcing workspace tenant separation based on app_metadata organization IDs.
