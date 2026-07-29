@@ -62,17 +62,17 @@ event = stripe.Webhook.construct_event(
             {/* Quick Search Bar */}
             <form onSubmit={handleSearchSubmit} className="pt-2 max-w-xl">
               <div className="relative flex items-center">
-                <Search className="absolute left-4 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 sm:left-4 w-4 h-4 text-gray-400 pointer-events-none" />
                 <input
                   type="text"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  placeholder="Search tutorials or tools (e.g. Stripe, n8n, Python)..."
-                  className="w-full pl-11 pr-28 py-3 bg-gray-50 hover:bg-gray-100/80 focus:bg-white text-black text-sm font-sans placeholder-gray-400 border border-gray-200 rounded-md focus:outline-none focus:border-black transition-all"
+                  placeholder="Search tutorials, APIs or tools (e.g. Stripe, n8n)..."
+                  className="w-full pl-9 sm:pl-11 pr-20 sm:pr-28 py-2.5 sm:py-3 bg-gray-50 hover:bg-gray-100/80 focus:bg-white text-black text-xs sm:text-sm font-sans placeholder-gray-400 border border-gray-200 rounded-md focus:outline-none focus:border-black transition-all"
                 />
                 <button
                   type="submit"
-                  className="absolute right-1.5 px-3.5 py-2 bg-black hover:bg-gray-800 text-white text-xs font-semibold rounded-md transition-colors"
+                  className="absolute right-1 sm:right-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-black hover:bg-gray-800 text-white text-[11px] sm:text-xs font-semibold rounded-md transition-colors"
                 >
                   Search
                 </button>

@@ -38,15 +38,38 @@ export const VideoModal: React.FC<VideoModalProps> = ({
           </button>
         </div>
 
-        {/* Video Player Embed Simulator */}
-        <div className="relative aspect-video bg-neutral-950 w-full overflow-hidden">
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1`}
-            title={video.title}
-            className="w-full h-full border-0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+        {/* Video Player Embed / Placeholder */}
+        <div className="relative aspect-video bg-neutral-950 w-full overflow-hidden flex flex-col items-center justify-center p-6 text-center text-white">
+          {!video.youtubeId || video.youtubeId.startsWith('placeholder') || video.youtubeId === 'dQw4w9WgXcQ' || video.youtubeId === 'L_LUpnjgPso' || video.youtubeId === 'kJQP7kiw5Fk' || video.youtubeId === '3JZ_D3ELwOQ' ? (
+            <div className="space-y-3 flex flex-col items-center max-w-md">
+              <div className="w-14 h-14 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg animate-pulse">
+                <Play className="w-7 h-7 fill-current translate-x-0.5" />
+              </div>
+              <div>
+                <h4 className="text-base font-bold text-white">{video.title}</h4>
+                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  Video tutorial published on official @BONSAILabsIN YouTube channel.
+                </p>
+              </div>
+              <a
+                href={video.youtubeUrl || "https://youtube.com/@BONSAILabsIN"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold rounded-md transition-colors flex items-center gap-2 font-sans"
+              >
+                <span>Watch on @BONSAILabsIN YouTube Channel</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
+          ) : (
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1`}
+              title={video.title}
+              className="w-full h-full border-0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          )}
         </div>
 
         {/* Modal Body */}

@@ -120,7 +120,22 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-gray-100 bg-white px-4 pt-3 pb-6 space-y-2 font-sans text-sm">
+        <div className="md:hidden border-b border-gray-100 bg-white px-4 pt-3 pb-6 space-y-3 font-sans text-sm">
+          {/* Mobile Search input */}
+          <div className="relative w-full pb-1">
+            <input
+              type="text"
+              onClick={() => {
+                onOpenSearch();
+                setMobileMenuOpen(false);
+              }}
+              readOnly
+              placeholder="Search tutorials or tools..."
+              className="w-full pl-9 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-md text-xs font-sans placeholder-gray-400 focus:outline-none focus:border-black cursor-pointer"
+            />
+            <Search className="absolute left-3 top-2.5 w-3.5 h-3.5 text-gray-400" />
+          </div>
+
           <button
             onClick={() => handleNav('home')}
             className={`w-full text-left px-3 py-2 rounded text-sm ${

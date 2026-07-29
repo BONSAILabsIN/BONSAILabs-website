@@ -124,13 +124,13 @@ export const ResourceLibrary: React.FC<ResourceLibraryProps> = ({
           {/* Search input + Sort + Bookmarks toggle */}
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-3.5 w-4 h-4 text-gray-400 top-3" />
+              <Search className="absolute left-3.5 w-4 h-4 text-gray-400 top-3 pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by topic, keyword, tool (e.g. Stripe, n8n, FastAPI, RLS)..."
-                className="w-full pl-10 pr-10 py-2.5 bg-white text-black border border-gray-200 rounded text-xs font-sans placeholder-gray-400 focus:outline-none focus:border-black"
+                placeholder="Search by topic, keyword, or tool (e.g. Stripe, n8n)..."
+                className="w-full pl-10 pr-10 py-2.5 bg-white text-black border border-gray-200 rounded text-xs font-sans placeholder-gray-400 focus:outline-none focus:border-black transition-all"
               />
               {searchQuery && (
                 <button

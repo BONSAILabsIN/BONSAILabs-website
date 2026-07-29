@@ -4,8 +4,8 @@ export const POPULAR_VIDEOS: VideoItem[] = [
   {
     id: 'vid-1',
     title: 'Stripe Webhooks Signature Verification in FastAPI in 140 Seconds',
-    youtubeId: 'dQw4w9WgXcQ',
-    youtubeUrl: 'https://youtube.com/watch?v=stripe-webhook-fastapi',
+    youtubeId: 'placeholder-stripe-webhook-fastapi',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     thumbnailUrl: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop',
     duration: '2:20',
     durationSeconds: 140,
@@ -20,8 +20,8 @@ export const POPULAR_VIDEOS: VideoItem[] = [
   {
     id: 'vid-2',
     title: 'Self-Hosted n8n AI Webhook Pipeline with Gemini in 165 Seconds',
-    youtubeId: 'L_LUpnjgPso',
-    youtubeUrl: 'https://youtube.com/watch?v=n8n-gemini-pipeline',
+    youtubeId: 'placeholder-n8n-gemini-pipeline',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     thumbnailUrl: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop',
     duration: '2:45',
     durationSeconds: 165,
@@ -36,8 +36,8 @@ export const POPULAR_VIDEOS: VideoItem[] = [
   {
     id: 'vid-3',
     title: 'Production Docker Multi-Stage Build (Node.js 45MB Image) in 110 Seconds',
-    youtubeId: 'kJQP7kiw5Fk',
-    youtubeUrl: 'https://youtube.com/watch?v=docker-node-multistage',
+    youtubeId: 'placeholder-docker-node-multistage',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     thumbnailUrl: 'https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=800&auto=format&fit=crop',
     duration: '1:50',
     durationSeconds: 110,
@@ -52,8 +52,8 @@ export const POPULAR_VIDEOS: VideoItem[] = [
   {
     id: 'vid-4',
     title: 'Redis Sliding Window Rate Limiter Middleware in 155 Seconds',
-    youtubeId: '3JZ_D3ELwOQ',
-    youtubeUrl: 'https://youtube.com/watch?v=redis-rate-limiter',
+    youtubeId: 'placeholder-redis-rate-limiter',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     thumbnailUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800&auto=format&fit=crop',
     duration: '2:35',
     durationSeconds: 155,
@@ -82,8 +82,8 @@ export const ALL_RESOURCES: ResourceItem[] = [
     publishedDate: '2026-07-20',
     isPopular: true,
     isFeatured: true,
-    youtubeId: 'dQw4w9WgXcQ',
-    youtubeUrl: 'https://youtube.com/watch?v=stripe-webhook-fastapi',
+    youtubeId: 'placeholder-stripe-webhook-fastapi',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     diagramType: 'webhook-flow',
     fullArticleText: `When handling Stripe webhooks in FastAPI, a frequent trap developers run into is signature verification failure (400 Bad Request / SignatureVerificationError).
 
@@ -193,8 +193,8 @@ async def handle_stripe_webhook(
     publishedDate: '2026-07-18',
     isPopular: true,
     isFeatured: true,
-    youtubeId: 'L_LUpnjgPso',
-    youtubeUrl: 'https://youtube.com/watch?v=n8n-gemini-pipeline',
+    youtubeId: 'placeholder-n8n-gemini-pipeline',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     diagramType: 'pipeline',
     fullArticleText: `Automating support triage or payload normalization often requires processing messy, unstructured customer inputs.
 
@@ -268,8 +268,8 @@ async def handle_stripe_webhook(
     publishedDate: '2026-07-12',
     isPopular: true,
     isFeatured: true,
-    youtubeId: 'kJQP7kiw5Fk',
-    youtubeUrl: 'https://youtube.com/watch?v=docker-node-multistage',
+    youtubeId: 'placeholder-docker-node-multistage',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     diagramType: 'architecture',
     fullArticleText: `Standard Node.js Docker containers often swell to 1.2GB due to build tools, TypeScript compilers, and devDependencies.
 
@@ -323,8 +323,8 @@ CMD ["node", "dist/server.js"]`
     publishedDate: '2026-07-05',
     isPopular: true,
     isFeatured: false,
-    youtubeId: '3JZ_D3ELwOQ',
-    youtubeUrl: 'https://youtube.com/watch?v=redis-rate-limiter',
+    youtubeId: 'placeholder-redis-rate-limiter',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     diagramType: 'architecture',
     fullArticleText: `Fixed window rate limiters suffer from burst attacks at window boundaries. A Redis ZSET sliding window keeps track of exact request timestamps per IP.`,
     codeBlocks: [
@@ -382,8 +382,8 @@ export function createSlidingWindowLimiter(limit: number, windowSeconds: number)
     publishedDate: '2026-06-28',
     isPopular: false,
     isFeatured: false,
-    youtubeId: 'fJ9rUzIMcZQ',
-    youtubeUrl: 'https://youtube.com/watch?v=supabase-rls-saas',
+    youtubeId: 'placeholder-supabase-rls-saas',
+    youtubeUrl: 'https://youtube.com/@BONSAILabsIN',
     diagramType: 'rls-tree',
     codeBlocks: [
       {

@@ -1,0 +1,73 @@
+backend:
+  name: github
+  repo: BONSAILabsIN/website
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "tutorials"
+    label: "Tutorials & Blueprints"
+    folder: "content/tutorials"
+    create: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "yaml-frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["API & Webhooks", "Automation & n8n", "AI & LLMs", "DevOps & Docker", "Backend & Databases", "Auth & Security"] }
+      - { label: "Content Type", name: "contentType", widget: "select", options: ["tutorial", "workflow", "snippet", "guide"] }
+      - { label: "Duration in Seconds", name: "durationSeconds", widget: "number", value_type: "int", default: 180 }
+      - { label: "YouTube URL", name: "youtubeUrl", widget: "string", required: false }
+      - { label: "Tool Stack Tags", name: "toolStack", widget: "list" }
+      - { label: "Published Date", name: "publishedDate", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Body Article (MDX)", name: "body", widget: "markdown" }
+
+  - name: "videos"
+    label: "YouTube Video Entries"
+    folder: "content/videos"
+    create: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "yaml-frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "YouTube ID", name: "youtubeId", widget: "string" }
+      - { label: "YouTube URL", name: "youtubeUrl", widget: "string" }
+      - { label: "Thumbnail URL", name: "thumbnailUrl", widget: "string" }
+      - { label: "Duration String", name: "duration", widget: "string" }
+      - { label: "Duration in Seconds", name: "durationSeconds", widget: "number", value_type: "int" }
+      - { label: "Views", name: "views", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["API & Webhooks", "Automation & n8n", "AI & LLMs", "DevOps & Docker", "Backend & Databases", "Auth & Security"] }
+      - { label: "Tool Stack", name: "toolStack", widget: "list" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Associated Resource ID", name: "associatedResourceId", widget: "string", required: false }
+      - { label: "Is Popular", name: "isPopular", widget: "boolean", default: true }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "series"
+    label: "Learning Series"
+    folder: "content/series"
+    create: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "yaml-frontmatter"
+    fields:
+      - { label: "Series Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "news"
+    label: "Announcements & News"
+    folder: "content/news"
+    create: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "yaml-frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }

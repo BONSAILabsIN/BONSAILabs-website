@@ -15,8 +15,8 @@ export const Logo: React.FC<LogoProps> = ({
 
   return (
     <div className={`inline-flex items-center gap-3.5 select-none ${className}`}>
-      {/* Official BL Mark with sparkle & sub-label */}
-      <div className="flex flex-col items-center justify-center shrink-0">
+      {/* Official BL Mark with sparkle */}
+      <div className="flex items-center justify-center shrink-0">
         <svg
           width={isHero ? '52' : '42'}
           height={isHero ? '44' : '34'}
@@ -56,11 +56,6 @@ export const Logo: React.FC<LogoProps> = ({
             strokeLinejoin="round"
           />
         </svg>
-
-        {/* BONSAI Labs text directly under mark */}
-        <span className="text-[8px] sm:text-[9px] font-extrabold tracking-tight text-black uppercase font-sans mt-0.5 leading-none">
-          BONSAI Labs
-        </span>
       </div>
 
       {/* Main Wordmark: bonsailabs.in */}
