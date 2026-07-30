@@ -7,7 +7,26 @@
   <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
 </head>
 <body>
+  <script>
+    window.CMS_MANUAL_INIT = true;
+  </script>
   <!-- Decap CMS Script -->
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    (function() {
+      const currentOrigin = window.location.origin;
+      window.initCMS({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'BONSAILabsIN/website',
+            branch: 'main',
+            base_url: currentOrigin,
+            auth_endpoint: 'api/auth'
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
