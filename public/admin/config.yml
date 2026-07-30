@@ -2,7 +2,6 @@ backend:
   name: github
   repo: BONSAILabsIN/website
   branch: main
-  base_url: https://www.bonsailabs.in
   auth_endpoint: api/auth
 
 media_folder: "public/uploads"

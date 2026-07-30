@@ -38,10 +38,14 @@ export default async function handler(req, res) {
       return res.status(400).send("GitHub did not return an access token.");
     }
 
+    const authDataString = JSON.stringify({ token, provider });
+    const successMsg = `authorization:${provider}:success:${authDataString}`;
+
     const script = `
       <!DOCTYPE html>
       <html>
       <head>
+        <meta charset="utf-8">
         <title>Authorizing Decap CMS...</title>
       </head>
       <body style="font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f9fafb; color: #111827;">
@@ -51,44 +55,45 @@ export default async function handler(req, res) {
         </div>
         <script>
           (function() {
-            const token = ${JSON.stringify(token)};
+            const successMsg = ${JSON.stringify(successMsg)};
             const provider = ${JSON.stringify(provider)};
-            const successMsg = 'authorization:' + provider + ':success:' + JSON.stringify({ token: token, provider: provider });
 
-            let handshakeDone = false;
-
-            function receiveMessage(e) {
-              if (e.data === "authorizing:" + provider) {
-                handshakeDone = true;
-                window.removeEventListener("message", receiveMessage, false);
-                if (window.opener) {
-                  window.opener.postMessage(successMsg, e.origin || "*");
-                  window.opener.postMessage(successMsg, "*");
-                }
-                setTimeout(function() {
-                  window.close();
-                }, 500);
-              }
-            }
-
-            window.addEventListener("message", receiveMessage, false);
-
-            function doHandshake() {
-              if (handshakeDone) return;
+            function sendToOpener(msg, targetOrigin) {
               if (window.opener) {
-                window.opener.postMessage("authorizing:" + provider, "*");
+                try {
+                  window.opener.postMessage(msg, targetOrigin || '*');
+                } catch (e) {
+                  console.error('postMessage error:', e);
+                }
               }
             }
 
-            doHandshake();
-
-            const interval = setInterval(function() {
-              if (handshakeDone) {
-                clearInterval(interval);
-              } else {
-                doHandshake();
+            // Standard Decap/Netlify CMS handshake listener
+            function handleMessage(e) {
+              if (e && e.data === 'authorizing:' + provider) {
+                sendToOpener(successMsg, e.origin);
+                sendToOpener(successMsg, '*');
+                setTimeout(function() { window.close(); }, 300);
               }
-            }, 250);
+            }
+
+            window.addEventListener('message', handleMessage, false);
+
+            // Send handshake initiation and token
+            sendToOpener('authorizing:' + provider, '*');
+            sendToOpener(successMsg, '*');
+
+            // Fallback loop to guarantee message delivery
+            let attempts = 0;
+            const interval = setInterval(function() {
+              attempts++;
+              sendToOpener('authorizing:' + provider, '*');
+              sendToOpener(successMsg, '*');
+              if (attempts >= 15) {
+                clearInterval(interval);
+                setTimeout(function() { window.close(); }, 1000);
+              }
+            }, 300);
           })();
         </script>
       </body>
