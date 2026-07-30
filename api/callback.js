@@ -34,35 +34,61 @@ export default async function handler(req, res) {
     const token = data.access_token;
     const provider = "github";
 
+    if (!token) {
+      return res.status(400).send("GitHub did not return an access token.");
+    }
+
     const script = `
       <!DOCTYPE html>
       <html>
       <head>
         <title>Authorizing Decap CMS...</title>
       </head>
-      <body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f9fafb; color: #111827;">
-        <div style="text-align: center; max-width: 400px; padding: 2rem; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-          <h3 style="margin-top: 0;">Authorizing with GitHub...</h3>
-          <p style="color: #6b7280; font-size: 0.875rem;">Connecting to Decap CMS. This window will close automatically once authorized.</p>
+      <body style="font-family: system-ui, -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f9fafb; color: #111827;">
+        <div style="text-align: center; max-width: 400px; padding: 2rem; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+          <h3 style="margin: 0 0 0.5rem 0; font-size: 1.125rem;">Authorizing with GitHub...</h3>
+          <p style="margin: 0; color: #6b7280; font-size: 0.875rem;">Connecting to Decap CMS. This window will close automatically.</p>
         </div>
         <script>
           (function() {
-            function sendAuthSuccess(targetOrigin) {
-              const msg = 'authorization:github:success:${JSON.stringify({ token, provider })}';
-              if (window.opener) {
-                window.opener.postMessage(msg, targetOrigin || '*');
-              }
-            }
+            const token = ${JSON.stringify(token)};
+            const provider = ${JSON.stringify(provider)};
+            const successMsg = 'authorization:' + provider + ':success:' + JSON.stringify({ token: token, provider: provider });
+
+            let handshakeDone = false;
 
             function receiveMessage(e) {
-              sendAuthSuccess(e.origin);
+              if (e.data === "authorizing:" + provider) {
+                handshakeDone = true;
+                window.removeEventListener("message", receiveMessage, false);
+                if (window.opener) {
+                  window.opener.postMessage(successMsg, e.origin || "*");
+                  window.opener.postMessage(successMsg, "*");
+                }
+                setTimeout(function() {
+                  window.close();
+                }, 500);
+              }
             }
 
             window.addEventListener("message", receiveMessage, false);
 
-            if (window.opener) {
-              window.opener.postMessage("authorizing:github", "*");
+            function doHandshake() {
+              if (handshakeDone) return;
+              if (window.opener) {
+                window.opener.postMessage("authorizing:" + provider, "*");
+              }
             }
+
+            doHandshake();
+
+            const interval = setInterval(function() {
+              if (handshakeDone) {
+                clearInterval(interval);
+              } else {
+                doHandshake();
+              }
+            }, 250);
           })();
         </script>
       </body>
