@@ -105,7 +105,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (window.location.pathname.includes('/admin') || window.location.hash.includes('admin')) {
+    if (window.location.pathname.includes('/admin') || window.location.hash.includes('admin') || window.location.search.includes('admin')) {
       handleOpenAdmin();
     }
   }, []);
@@ -277,6 +277,7 @@ export default function App() {
       <Footer
         onOpenLegal={setLegalModal}
         onSelectTab={setCurrentTab}
+        onOpenAdmin={handleOpenAdmin}
       />
 
       {/* Modals */}

@@ -1,12 +1,156 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BONSAI Labs Admin - Decap CMS</title>
+  <title>BONSAI Labs — Owner Publishing Portal</title>
   <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      background-color: #09090b;
+      color: #f4f4f5;
+    }
+
+    /* Custom Publishing Portal Header Bar */
+    #portal-header {
+      background-color: #000000;
+      border-bottom: 1px solid #27272a;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .portal-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .portal-logo-mark {
+      background: #10b981;
+      color: #000000;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .portal-title {
+      font-weight: 800;
+      font-size: 15px;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+    .portal-subtitle {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #a1a1aa;
+      margin-left: 8px;
+    }
+    .portal-badge {
+      background: rgba(16, 185, 129, 0.1);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .portal-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .portal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #18181b;
+      color: #e4e4e7;
+      border: 1px solid #3f3f46;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+    .portal-btn:hover {
+      background: #27272a;
+      color: #ffffff;
+      border-color: #52525b;
+    }
+    .portal-btn-primary {
+      background: #10b981;
+      color: #000000;
+      border-color: #10b981;
+      font-weight: 700;
+    }
+    .portal-btn-primary:hover {
+      background: #34d399;
+      color: #000000;
+      border-color: #34d399;
+    }
+
+    /* Decap CMS Overrides & High-Contrast Custom Theme */
+    #nc-root {
+      font-family: var(--font-sans) !important;
+    }
+    /* Style CMS buttons & Login UI */
+    button[class*="StyledButton"] {
+      font-family: var(--font-mono) !important;
+      border-radius: 6px !important;
+    }
+    div[class*="LoginLayout"] {
+      background-color: #09090b !important;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- BONSAI Labs Publishing Portal Custom Top Bar -->
+  <header id="portal-header">
+    <div class="portal-brand">
+      <div class="portal-logo-mark">BL</div>
+      <div>
+        <span class="portal-title">BONSAI Labs</span>
+        <span class="portal-badge">Owner Publishing Portal</span>
+        <span class="portal-subtitle">Repo: BONSAILabsIN/BONSAILabs-website</span>
+      </div>
+    </div>
+
+    <div class="portal-actions">
+      <a href="/" class="portal-btn">
+        <span>← Back to Website</span>
+      </a>
+      <a href="/?admin=true" class="portal-btn portal-btn-primary">
+        <span>⚡ Open In-App Portal</span>
+      </a>
+      <a href="https://github.com/BONSAILabsIN/BONSAILabs-website" target="_blank" rel="noopener noreferrer" class="portal-btn">
+        <span>GitHub Repository ↗</span>
+      </a>
+    </div>
+  </header>
+
   <script>
     window.CMS_MANUAL_INIT = true;
   </script>
@@ -26,7 +170,37 @@
           }
         }
       });
+
+      // Register Custom Preview Template for Tutorials
+      if (window.CMS) {
+        var TutorialPreview = createClass({
+          render: function() {
+            var entry = this.props.entry;
+            var title = entry.getIn(['data', 'title']) || 'Untitled Tutorial';
+            var category = entry.getIn(['data', 'category']) || 'Uncategorized';
+            var contentType = entry.getIn(['data', 'contentType']) || 'tutorial';
+            var description = entry.getIn(['data', 'description']) || '';
+            var body = this.props.widgetFor('body');
+            var toolStack = entry.getIn(['data', 'toolStack']);
+
+            return h('div', { style: { padding: '24px', fontFamily: 'Plus Jakarta Sans, sans-serif', color: '#111', backgroundColor: '#fafafa', minHeight: '100vh' } },
+              h('div', { style: { backgroundColor: '#fff', border: '1px solid #e4e4e7', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' } },
+                h('div', { style: { display: 'flex', gap: '8px', marginBottom: '12px', fontFamily: 'JetBrains Mono, monospace', fontSize: '11px' } },
+                  h('span', { style: { background: '#000', color: '#fff', padding: '2px 8px', borderRadius: '4px', textTransform: 'uppercase', fontWeight: 'bold' } }, contentType),
+                  h('span', { style: { background: '#ecfdf5', color: '#047857', border: '1px solid #a7f3d0', padding: '2px 8px', borderRadius: '4px', fontWeight: '600' } }, category)
+                ),
+                h('h1', { style: { fontSize: '24px', fontWeight: '800', margin: '0 0 12px 0', letterSpacing: '-0.02em', color: '#000' } }, title),
+                h('p', { style: { fontSize: '14px', color: '#52525b', lineHeight: '1.6', margin: '0 0 20px 0' } }, description),
+                h('hr', { style: { border: 'none', borderTop: '1px solid #e4e4e7', margin: '20px 0' } }),
+                h('div', { style: { fontSize: '14px', lineHeight: '1.7', color: '#27272a' } }, body)
+              )
+            );
+          }
+        });
+        window.CMS.registerPreviewTemplate('tutorials', TutorialPreview);
+      }
     })();
   </script>
 </body>
 </html>
+

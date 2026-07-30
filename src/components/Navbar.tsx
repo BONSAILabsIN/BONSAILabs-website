@@ -86,15 +86,6 @@ export const Navbar: React.FC<NavbarProps> = ({
           >
             YouTube Videos
           </button>
-
-          <button
-            onClick={() => handleNav('about')}
-            className={`transition-colors ${
-              currentTab === 'about' ? 'text-black font-bold' : 'text-gray-600 hover:text-black'
-            }`}
-          >
-            About
-          </button>
         </nav>
 
         {/* Mobile Hamburger Toggle */}
@@ -162,15 +153,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             }`}
           >
             YouTube Videos (&lt;180s)
-          </button>
-
-          <button
-            onClick={() => handleNav('about')}
-            className={`w-full text-left px-3 py-2 rounded text-sm ${
-              currentTab === 'about' ? 'bg-gray-100 text-black font-bold' : 'text-gray-600'
-            }`}
-          >
-            About BONSAI Labs
           </button>
         </div>
       )}

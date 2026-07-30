@@ -499,11 +499,12 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
 
               {/* FORM: RESOURCE BLUEPRINT */}
               {itemKind === 'resource' && (
-                <form onSubmit={handleSaveResourceSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="sm:col-span-2 space-y-1">
-                      <label className="text-xs font-mono font-bold text-gray-700">
-                        Title *
+                <form onSubmit={handleSaveResourceSubmit} className="space-y-6 font-mono text-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="sm:col-span-2 space-y-1.5">
+                      <label className="text-xs font-mono font-bold text-gray-800 flex items-center gap-1">
+                        <span>Title</span>
+                        <span className="text-emerald-600">*</span>
                       </label>
                       <input
                         type="text"
@@ -511,18 +512,19 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                         value={resTitle}
                         onChange={(e) => setResTitle(e.target.value)}
                         placeholder="e.g., Stripe Webhooks Signature Verification in FastAPI"
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       />
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-xs font-mono font-bold text-gray-700">
-                        Category *
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono font-bold text-gray-800 flex items-center gap-1">
+                        <span>Category</span>
+                        <span className="text-emerald-600">*</span>
                       </label>
                       <select
                         value={resCategory}
                         onChange={(e) => setResCategory(e.target.value as Category)}
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       >
                         {CATEGORY_LIST.filter(c => c !== 'All').map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
@@ -530,36 +532,37 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                       </select>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-xs font-mono font-bold text-gray-700">
-                        Content Type *
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono font-bold text-gray-800 flex items-center gap-1">
+                        <span>Content Type</span>
+                        <span className="text-emerald-600">*</span>
                       </label>
                       <select
                         value={resContentType}
                         onChange={(e) => setResContentType(e.target.value as ContentType)}
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       >
                         <option value="tutorial">Tutorial</option>
                         <option value="workflow">Workflow Template (n8n / JSON)</option>
-                        <option value="snippet">Code Snippet</option>
+                        <option value="snippet">Snippet Blueprint</option>
                         <option value="guide">Guide / Architecture</option>
                       </select>
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-xs font-mono font-bold text-gray-700">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono font-bold text-gray-800">
                         Duration in Seconds (e.g. 140 = 2m 20s)
                       </label>
                       <input
                         type="number"
                         value={resDuration}
                         onChange={(e) => setResDuration(Number(e.target.value))}
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-mono focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       />
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="text-xs font-mono font-bold text-gray-700">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-mono font-bold text-gray-800">
                         YouTube Video Link or Video ID (Optional)
                       </label>
                       <input
@@ -567,17 +570,17 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                         value={resYoutubeUrl}
                         onChange={(e) => setResYoutubeUrl(e.target.value)}
                         placeholder="https://youtube.com/watch?v=XXXX or Video ID"
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-mono focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       />
                     </div>
                   </div>
 
                   {/* Tool Stack Selector */}
-                  <div className="space-y-2">
-                    <label className="text-xs font-mono font-bold text-gray-700">
+                  <div className="space-y-2 pt-1">
+                    <label className="text-xs font-mono font-bold text-gray-800 block">
                       Select Tool Stack Tags
                     </label>
-                    <div className="flex flex-wrap gap-1.5 font-mono text-xs">
+                    <div className="flex flex-wrap gap-2 font-mono text-xs">
                       {TOOL_STACK_LIST.map((tool) => {
                         const isSelected = resToolStack.includes(tool as ToolStack);
                         return (
@@ -585,13 +588,14 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                             key={tool}
                             type="button"
                             onClick={() => toggleToolStackInResource(tool as ToolStack)}
-                            className={`px-2.5 py-1 rounded text-[11px] border transition-colors ${
+                            className={`px-3 py-1.5 rounded-md text-xs font-mono transition-all flex items-center gap-1 border ${
                               isSelected
-                                ? 'bg-black text-white border-black font-semibold'
-                                : 'bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100'
+                                ? 'bg-black text-white border-black font-bold shadow-sm'
+                                : 'bg-[#f8fafc] text-gray-700 border-gray-300 hover:bg-gray-100'
                             }`}
                           >
-                            {tool} {isSelected && '✓'}
+                            <span>{tool}</span>
+                            {isSelected && <span className="text-emerald-400 font-bold">✓</span>}
                           </button>
                         );
                       })}
@@ -599,9 +603,10 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                   </div>
 
                   {/* Short Description */}
-                  <div className="space-y-1">
-                    <label className="text-xs font-mono font-bold text-gray-700">
-                      Short Overview / Bottleneck Description *
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono font-bold text-gray-800 flex items-center gap-1">
+                      <span>Short Overview / Bottleneck Description</span>
+                      <span className="text-emerald-600">*</span>
                     </label>
                     <textarea
                       required
@@ -609,13 +614,13 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                       value={resDescription}
                       onChange={(e) => setResDescription(e.target.value)}
                       placeholder="Briefly state the bottleneck solved (under 2 sentences)..."
-                      className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                      className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-sans text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                     />
                   </div>
 
                   {/* Full Article Text */}
-                  <div className="space-y-1">
-                    <label className="text-xs font-mono font-bold text-gray-700">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-mono font-bold text-gray-800 block">
                       Full Article Write-up &amp; Explanation
                     </label>
                     <textarea
@@ -623,43 +628,43 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                       value={resArticleText}
                       onChange={(e) => setResArticleText(e.target.value)}
                       placeholder="Detailed resolution analysis, steps, or explanation..."
-                      className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                      className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-sans text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                     />
                   </div>
 
-                  {/* Code Snippet Box */}
-                  <div className="p-4 bg-gray-900 text-white rounded-lg space-y-3 font-mono text-xs">
-                    <div className="flex items-center justify-between text-gray-300 border-b border-gray-800 pb-2">
-                      <span className="font-bold text-emerald-400">Primary Code Snippet</span>
+                  {/* Primary Code Snippet Box */}
+                  <div className="p-4 bg-[#0b0f19] text-white rounded-xl border border-gray-800 space-y-3 font-mono text-xs shadow-inner">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-800/80 pb-2.5">
+                      <span className="font-bold text-emerald-400 text-xs">Primary Code Snippet</span>
                       <div className="flex items-center gap-2">
                         <input
                           type="text"
                           value={resCodeFilename}
                           onChange={(e) => setResCodeFilename(e.target.value)}
                           placeholder="filename (e.g. main.py)"
-                          className="px-2 py-1 bg-gray-800 text-white border border-gray-700 rounded text-[11px]"
+                          className="px-2.5 py-1 bg-[#161b22] text-gray-200 border border-gray-700 rounded-md text-[11px] font-mono focus:outline-none focus:border-emerald-500"
                         />
                         <input
                           type="text"
                           value={resCodeLanguage}
                           onChange={(e) => setResCodeLanguage(e.target.value)}
                           placeholder="language (python, ts, dockerfile)"
-                          className="px-2 py-1 bg-gray-800 text-white border border-gray-700 rounded text-[11px]"
+                          className="px-2.5 py-1 bg-[#161b22] text-gray-200 border border-gray-700 rounded-md text-[11px] font-mono focus:outline-none focus:border-emerald-500"
                         />
                       </div>
                     </div>
                     <textarea
-                      rows={5}
+                      rows={6}
                       value={resCodeContent}
                       onChange={(e) => setResCodeContent(e.target.value)}
                       placeholder="# Paste Python, TypeScript, Docker, or SQL code here..."
-                      className="w-full p-3 bg-gray-950 text-gray-200 border border-gray-800 rounded font-mono text-xs focus:outline-none focus:border-emerald-500"
+                      className="w-full p-3 bg-[#030712] text-emerald-300 border border-gray-800 rounded-lg font-mono text-xs focus:outline-none focus:border-emerald-500 leading-relaxed"
                     />
                   </div>
 
                   {/* Workflow JSON Box */}
-                  <div className="p-4 bg-gray-900 text-white rounded-lg space-y-2 font-mono text-xs">
-                    <label className="font-bold text-amber-400 block border-b border-gray-800 pb-2">
+                  <div className="p-4 bg-[#0b0f19] text-white rounded-xl border border-gray-800 space-y-2.5 font-mono text-xs shadow-inner">
+                    <label className="font-bold text-amber-400 block border-b border-gray-800/80 pb-2">
                       n8n / Automation Workflow JSON (Optional)
                     </label>
                     <textarea
@@ -667,14 +672,14 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                       value={resWorkflowJson}
                       onChange={(e) => setResWorkflowJson(e.target.value)}
                       placeholder='Paste JSON template (e.g. {"name": "My n8n Workflow", "nodes": [...]})'
-                      className="w-full p-3 bg-gray-950 text-gray-200 border border-gray-800 rounded font-mono text-xs focus:outline-none focus:border-amber-500"
+                      className="w-full p-3 bg-[#030712] text-amber-300 border border-gray-800 rounded-lg font-mono text-xs focus:outline-none focus:border-amber-500 leading-relaxed"
                     />
                   </div>
 
                   {/* Prerequisites & Takeaways */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-                    <div className="space-y-1">
-                      <label className="font-bold text-gray-700">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-xs font-mono">
+                    <div className="space-y-1.5">
+                      <label className="font-bold text-gray-800 block">
                         Prerequisites (Comma separated)
                       </label>
                       <input
@@ -682,12 +687,12 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                         value={resPrereqs}
                         onChange={(e) => setResPrereqs(e.target.value)}
                         placeholder="Python 3.10+, FastAPI, Stripe Keys"
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       />
                     </div>
 
-                    <div className="space-y-1">
-                      <label className="font-bold text-gray-700">
+                    <div className="space-y-1.5">
+                      <label className="font-bold text-gray-800 block">
                         Key Takeaways (Comma separated)
                       </label>
                       <input
@@ -695,15 +700,16 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                         value={resTakeaways}
                         onChange={(e) => setResTakeaways(e.target.value)}
                         placeholder="Extract raw bytes with request.body(), Return clean HTTP 400"
-                        className="w-full p-2.5 bg-gray-50 border border-gray-300 rounded text-xs font-sans focus:outline-none focus:border-black"
+                        className="w-full p-3 bg-[#f8fafc] border border-gray-300 rounded-lg text-xs font-mono text-gray-900 focus:bg-white focus:outline-none focus:border-black transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-gray-200">
-                    <div className="flex items-center gap-2">
-                      <label className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded text-xs font-mono font-semibold cursor-pointer transition-colors flex items-center gap-1.5">
-                        <Upload className="w-3.5 h-3.5 text-gray-600" />
+                  {/* Bottom Action Bar matching Screenshot 4 */}
+                  <div className="pt-4 flex flex-wrap items-center justify-between gap-4 border-t border-gray-200">
+                    <div className="flex items-center gap-3">
+                      <label className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-lg text-xs font-mono font-bold cursor-pointer transition-all flex items-center gap-2 border border-gray-200 shadow-sm">
+                        <Upload className="w-4 h-4 text-gray-700" />
                         <span>Import .md / .mdx</span>
                         <input
                           type="file"
@@ -716,29 +722,29 @@ ${resWorkflowJson ? `\n## Automation Workflow JSON\n\`\`\`json\n${resWorkflowJso
                       <button
                         type="button"
                         onClick={handleExportCurrentMdx}
-                        className="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded text-xs font-mono font-semibold transition-colors flex items-center gap-1.5"
+                        className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-lg text-xs font-mono font-bold transition-all flex items-center gap-2 border border-gray-200 shadow-sm"
                         title="Export tutorial as MDX with Decap CMS frontmatter"
                       >
-                        <Download className="w-3.5 h-3.5 text-emerald-600" />
+                        <Download className="w-4 h-4 text-emerald-600" />
                         <span>Export .mdx</span>
                       </button>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <button
                         type="button"
                         onClick={resetResourceForm}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded text-xs font-mono font-medium hover:bg-gray-200"
+                        className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-mono font-bold transition-all"
                       >
                         Clear Form
                       </button>
 
                       <button
                         type="submit"
-                        className="px-6 py-2.5 bg-black text-white rounded text-xs font-mono font-bold hover:bg-gray-800 transition-colors uppercase tracking-wider flex items-center gap-2 shadow-sm"
+                        className="px-6 py-2.5 bg-black hover:bg-gray-900 text-white rounded-lg text-xs font-mono font-bold transition-all uppercase tracking-wider flex items-center gap-2 shadow-md"
                       >
-                        <Plus className="w-4 h-4 text-emerald-400" />
-                        <span>{resId ? 'Update Resource' : 'Publish Resource Live'}</span>
+                        <Plus className="w-4 h-4 text-emerald-400 stroke-[3]" />
+                        <span>{resId ? 'Update Resource' : 'PUBLISH RESOURCE LIVE'}</span>
                       </button>
                     </div>
                   </div>
