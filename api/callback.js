@@ -40,19 +40,29 @@ export default async function handler(req, res) {
       <head>
         <title>Authorizing Decap CMS...</title>
       </head>
-      <body style="font-family: sans-serif; display: flex; items-center: center; justify-content: center; height: 100vh;">
-        <p>Connecting to Decap CMS... You can close this window if it does not close automatically.</p>
+      <body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f9fafb; color: #111827;">
+        <div style="text-align: center; max-width: 400px; padding: 2rem; background: #ffffff; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+          <h3 style="margin-top: 0;">Authorizing with GitHub...</h3>
+          <p style="color: #6b7280; font-size: 0.875rem;">Connecting to Decap CMS. This window will close automatically once authorized.</p>
+        </div>
         <script>
           (function() {
-            function receiveMessage(e) {
-              console.log("Decap CMS Handshake:", e);
-              window.opener.postMessage(
-                'authorization:github:success:${JSON.stringify({ token, provider })}',
-                e.origin
-              );
+            function sendAuthSuccess(targetOrigin) {
+              const msg = 'authorization:github:success:${JSON.stringify({ token, provider })}';
+              if (window.opener) {
+                window.opener.postMessage(msg, targetOrigin || '*');
+              }
             }
+
+            function receiveMessage(e) {
+              sendAuthSuccess(e.origin);
+            }
+
             window.addEventListener("message", receiveMessage, false);
-            window.opener.postMessage("authorizing:github", "*");
+
+            if (window.opener) {
+              window.opener.postMessage("authorizing:github", "*");
+            }
           })();
         </script>
       </body>
